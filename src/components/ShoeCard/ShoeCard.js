@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components/macro';
+import styled, { keyframes } from 'styled-components/macro';
 
 import { WEIGHTS } from '../../constants';
 import { formatPrice, pluralize, isNewShoe } from '../../utils';
@@ -66,9 +66,23 @@ const ShoeCard = ({
   );
 };
 
+const float = keyframes`
+    0% {
+    transform: rotateY(0deg) rotate(5deg);
+  }
+  50% {
+    transform: rotateY(-30deg) rotate(-2deg);
+  }
+  100% {
+    transform: rotateY(0deg) rotate(5deg);
+  }
+`;
+
+
 const Link = styled.a`
   text-decoration: none;
   color: inherit;
+  perspective: 250px;
 `;
 
 const Wrapper = styled.article`
@@ -85,14 +99,19 @@ const Image = styled.img`
   width: 100%;
   display: block;
   transform-origin: 50% 90%;
-  transition: transform 600ms;
+  transition: transform 600ms, filter 1000ms;
   will-change: transform;
+  filter: brightness(90%);
+  /* backface-visibility: hidden; */
 
   @media (hover:hover) and (prefers-reduced-motion: no-preference) {
+
     ${Link}:hover &,
     ${Link}:focus & {
+      animation: revert;
       transform: scale(1.1);
-      transition: transform 200ms;
+      transition: transform 200ms, filter 400ms;
+      filter: brightness(100%);
     }
   }
 `;
@@ -134,6 +153,17 @@ const Flag = styled.div`
   font-weight: ${WEIGHTS.bold};
   color: var(--color-white);
   border-radius: 2px;
+  will-change: animation;
+  
+
+
+  @media (hover:hover) and (prefers-reduced-motion: no-preference) {
+    animation: ${float} 8000ms infinite alternate ease-in-out;
+    ${Link}:hover &,
+    ${Link}:focus & {
+      animation-play-state: paused;
+    }
+  }
 `;
 
 const SaleFlag = styled(Flag)`
