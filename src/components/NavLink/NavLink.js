@@ -5,56 +5,61 @@ import { WEIGHTS } from '../../constants';
 
 const NavLink = ({children, ...delegated}) => {
   return <Wrapper {...delegated}>
-    <MainText>{children}</MainText>
-    <HoverText>{children}</HoverText>
-  </Wrapper>;
+    <TextCard data-hover={children}>{children}</TextCard>
+</Wrapper>
 };
 
 const Wrapper = styled.a`
-  position: relative;
-  display: block;
   font-size: 1.125rem;
-  text-transform: uppercase;
-  text-decoration: none;
   color: var(--color-gray-900);
   font-weight: ${WEIGHTS.medium};
-  /*
-    Hide hidden version of text in slide-up effect
-  */
-    overflow: hidden;
+
+  line-height: 2em;
+	perspective: 500px;
 
   &:first-of-type {
     color: var(--color-secondary);
   }
 `;
 
-const Text = styled.span`
-  display: block;
-  transform: translateY(var(--translate-from));
-  transition: transform 500ms;
 
-  @media (prefers-reduced-motion: no-preference) {
-    ${Wrapper}:hover & {
-      transform: translateY(var(--translate-to));
-      transition: transform 250ms;
-    }
-  }
-`;
+const TextCard = styled.span`
+	position: relative;
+	display: inline-block;
+	padding: 3px 15px 0;
+	box-shadow: inset 0 3px var(--color-gray-100);
+	transition: background 600ms;
+	transform-origin: 50% 0;
+	transform-style: preserve-3d;
+	-webkit-transform-origin: 0% 50%;
+	-moz-transform-origin: 0% 50%;
+	transform-origin: 0% 50%;
 
-const MainText = styled(Text)`
-  --translate-from: 0%;
-  --translate-to: -100%;
-`;
-
-const HoverText = styled(Text)`
-  --translate-from: 100%;
-  --translate-to: 0%;
+  &::before {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: var(--color-gray-100);
+	color: #2f4351;
+	content: attr(data-hover);
+  font-size: 1.25rem;
+	transform: rotateX(270deg);
+	transition: transform 600ms;
+	transform-origin: 0 0;
+	pointer-events: none;
+  text-align: center;
   font-weight: ${WEIGHTS.bold};
+  }
+
+  ${Wrapper}:hover & {
+    background: #2f4351;
+  }
+
+  ${Wrapper}:hover &::before {
+	  transform: rotateX(0deg);
+  }
 
 `;
 
