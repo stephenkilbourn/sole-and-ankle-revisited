@@ -50,10 +50,10 @@ const fadeIn = keyframes`
 
 const slideIn = keyframes`
   from {
-    transform: translateX(100%);
+    transform: rotateY(-180deg);
   }
   to {
-    transform: translateX(0%);
+    transform: rotateY(0deg);
   }
 `;
 
@@ -66,6 +66,7 @@ const Wrapper = styled(DialogOverlay)`
   background: transparent;
   display: flex;
   justify-content: flex-end;
+  perspective: 500px;
 `;
 
 const Backdrop = styled.div`
@@ -88,8 +89,9 @@ const Content = styled(DialogContent)`
   padding: 32px;
 
   @media (prefers-reduced-motion: no-preference) {
-    animation: ${slideIn} 500ms both cubic-bezier(0, 0.6, 0.32, 1.06);
+    animation: ${slideIn} 400ms both cubic-bezier(0, 0.6, 0.32, 1.06);
     animation-delay: 200ms;
+    transform-origin: 100% 50%;
   }
 `;
 
@@ -99,7 +101,7 @@ const InnerWrapper = styled.div`
   height: 100%;
   @media (prefers-reduced-motion: no-preference) {
     animation: ${fadeIn} 600ms both;
-    animation-delay: 400ms;
+    animation-delay: 500ms;
   }
 `;
 
